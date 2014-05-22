@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bygus.androidtestch7.glbasics"
+    android:versionCode="1"
+    android:versionName="1.0" 
+    android:installLocation="preferExternal">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <application android:icon="@drawable/ic_launcher" android:label="Chapter 7 - OpenGL Basics" android:theme="@style/AppTheme">
+        <activity android:name=".GLBasicsStarter"
+                  android:label="Chapter 7 - OpenGL Basics">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".GLSurfaceViewTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>        
+        <activity android:name=".GLGameTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        <activity android:name=".FirstTriangleTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        <activity android:name=".ColoredTriangleTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".TexturedTriangleTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>    
+        <activity android:name=".IndexedTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".BlendingTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>    
+        <activity android:name=".BobTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>   
+        <activity android:name=".OptimizedBobTest"
+                  android:screenOrientation="portrait" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        
+        <activity android:name=".CannonTest" 
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".CannonGravityTest" 
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".CollisionTest"
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".Camera2DTest"
+              	  android:screenOrientation="landscape" 
+              	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".TextureAtlasTest" 
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".SpriteBatcherTest"          	  
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name=".AnimationTest"
+            	  android:screenOrientation="landscape" 
+            	  android:configChanges="keyboard|keyboardHidden|orientation"/>                                                                                                                                                                                                                                                                                                                                                                                                                    
+    </application>
+
+</manifest>
