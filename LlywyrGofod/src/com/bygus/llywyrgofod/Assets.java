@@ -22,6 +22,7 @@ public class Assets {
     public static TextureRegion bullet;
     public static Texture explosionTexture;
     public static Animation explosionAnim;
+    public static Font font;
     
     public static Animation saucer;
     
@@ -40,10 +41,10 @@ public class Assets {
         bullet = new TextureRegion(items, 0, 112, 16, 10);
         
         saucer = new Animation(0.2f,
-                new TextureRegion(items, 0, 124, 64, 32),
-                new TextureRegion(items, 64, 124, 64, 32),
-                new TextureRegion(items, 128, 124, 64, 32),
-                new TextureRegion(items, 192, 124, 64, 32));
+                new TextureRegion(items, 3, 124, 57, 26),
+                new TextureRegion(items, 66, 124, 57, 26),
+                new TextureRegion(items, 130, 124, 57, 26),
+                new TextureRegion(items, 194, 124, 57, 26));
         
         explosionTexture = new Texture(game, "explode.png");
         
@@ -55,6 +56,8 @@ public class Assets {
             }
         }
         explosionAnim = new Animation(0.1f, keyFrames);
+        
+        font = new Font(items, 224, 0, 16, 16, 20);
     }       
 
     public static void reload() {

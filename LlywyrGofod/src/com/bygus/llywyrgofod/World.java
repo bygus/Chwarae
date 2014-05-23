@@ -38,11 +38,7 @@ public class World {
     public World() {
         this.spaceship = new Spaceship(2, 5); 
         this.bullets = new ArrayList<Bullet>();
-        this.saucers = new ArrayList<Saucer>();
-        this.saucers.add(	new Saucer(13, 4));
-        this.saucers.add(new Saucer(17, 2));
-        this.saucers.add(new Saucer(17, 8));
-        this.saucers.add(new Saucer(20, 5));
+        this.saucers = getSaucers();
         //this.listener = listener;
         rand = new Random();
 
@@ -56,6 +52,10 @@ public class World {
     	updateBullets(deltaTime);
     	updateSaucers(deltaTime);
     	checkCollisions();
+    	if(saucers.size()==0)
+    	{
+    		this.state=WORLD_STATE_NEXT_LEVEL;
+    	}
     }
  
     public void fire()
@@ -75,11 +75,16 @@ public class World {
     
     private void updateSaucers(float deltaTime)
     {
-    	int len = saucers.size();
-    	for(int i = 0; i<len;i++)
-    	{
-    		saucers.get(i).update(deltaTime);
-    	}
+    	Iterator<Saucer> saucerIt = saucers.iterator();
+    	while(saucerIt.hasNext())
+		{
+			Saucer s = saucerIt.next();
+    		s.update(deltaTime, spaceship.position);
+    		if(s.state==Saucer.SAUCER_DEAD && s.stateTime > Saucer.SAUCER_EXPLOSION_TIME)
+    		{
+    			saucerIt.remove();
+    		}
+		}
     }
     
     private void updateSpaceship(float deltaTime)
@@ -100,6 +105,7 @@ public class World {
 			Saucer s = saucerIt.next();
 			if(s.state==Saucer.SAUCER_ALIVE)
 			{
+				
 				if(OverlapTester.overlapRectangles(s.bounds, this.spaceship.bounds))
 	    		{
 	    	    	// Check saucers vs Spaceship
@@ -107,6 +113,12 @@ public class World {
 	    			// And explode !!
 	    			
 	    		}
+				// if saucer leaves left hand side, remove it
+				if(s.position.x<=0-(Saucer.SAUCER_WIDTH/2))
+        		{
+        			saucerIt.remove();
+        			continue;
+        		}
 	    		// Need a SpatialHashGrid !!
 				Iterator<Bullet> bulletIt = bullets.iterator();
 	    		while(bulletIt.hasNext())
@@ -119,8 +131,36 @@ public class World {
 	        			s.kill();
 	        			bulletIt.remove();   			
 	        		}
+	        		if(b.position.x>=WORLD_WIDTH)
+	        		{
+	        			bulletIt.remove();
+	        		}
 	    		}
 			}
 		} 	
+    }
+    
+    private List<Saucer> getSaucers()
+    {
+    	List<Saucer> saucers = new ArrayList<Saucer>();
+        saucers.add(new Saucer(13, 4, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(17, 2, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(17, 8, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(20, 5, 3f, Saucer.SAUCER_BASIC));
+        
+        saucers.add(new Saucer(25, 1, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(26, 3, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(27, 5, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(26, 7, 3f, Saucer.SAUCER_BASIC));
+        saucers.add(new Saucer(25, 9, 3f, Saucer.SAUCER_BASIC));
+        
+        saucers.add(new Saucer(30, 2, 3f, Saucer.SAUCER_VERTICAL));
+        saucers.add(new Saucer(30, 5, 3f, Saucer.SAUCER_VERTICAL));
+        saucers.add(new Saucer(30, 8, 3f, Saucer.SAUCER_VERTICAL));
+        
+        saucers.add(new Saucer(35, 5, 3f, Saucer.SAUCER_HOMING));
+        saucers.add(new Saucer(36, 1, 3f, Saucer.SAUCER_HOMING));
+        saucers.add(new Saucer(37, 7, 3f, Saucer.SAUCER_HOMING));
+        return saucers;
     }
 }

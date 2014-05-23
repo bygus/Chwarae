@@ -32,6 +32,7 @@ public class GameScreen extends GLScreen {
     Rectangle downBounds;
     Rectangle fireBounds;
     Rectangle quitBounds; 
+    Rectangle gameOverBounds;
     World world;
     LlywyrRenderer renderer;
     
@@ -50,6 +51,7 @@ public class GameScreen extends GLScreen {
         fireBounds = new Rectangle(480 - 64, 0, 64, 64); // make the bounds a bit big !
         resumeBounds = new Rectangle(240 - 96, 160, 192, 36);
         quitBounds = new Rectangle(240 - 96, 160 - 36, 192, 36);
+        gameOverBounds = new Rectangle(240 - 80, 160 - 48, 160, 96);
     }
 
     @Override
@@ -152,7 +154,12 @@ public class GameScreen extends GLScreen {
             TouchEvent event = touchEvents.get(i);
             if(event.type != TouchEvent.TOUCH_UP)
                 continue;
-            state = GAME_READY;
+            touchPoint.set(event.x, event.y);
+            guiCam.touchToWorld(touchPoint);
+        	if(OverlapTester.pointInRectangle(gameOverBounds, touchPoint)) 
+            {
+                game.setScreen(new MainMenuScreen(game));
+            }
         }
     }
 
@@ -162,8 +169,13 @@ public class GameScreen extends GLScreen {
         for(int i = 0; i < len; i++) {                   
             TouchEvent event = touchEvents.get(i);
             if(event.type != TouchEvent.TOUCH_UP)
-                continue;
-            game.setScreen(new MainMenuScreen(game));
+            	continue;
+            touchPoint.set(event.x, event.y);
+            guiCam.touchToWorld(touchPoint);
+        	if(OverlapTester.pointInRectangle(gameOverBounds, touchPoint)) 
+            {
+                game.setScreen(new MainMenuScreen(game));
+            }
         }
     }
 
@@ -216,12 +228,12 @@ public class GameScreen extends GLScreen {
     }
 
     private void presentLevelEnd() {
-        /*String topText = "the princess is ...";
-        String bottomText = "in another castle!";
+        String topText = "Level 1 complete";
+        String bottomText = "Prepare for level 2.....";
         float topWidth = Assets.font.glyphWidth * topText.length();
         float bottomWidth = Assets.font.glyphWidth * bottomText.length();
-        Assets.font.drawText(batcher, topText, 160 - topWidth / 2, 480 - 40);
-        Assets.font.drawText(batcher, bottomText, 160 - bottomWidth / 2, 40);*/
+        Assets.font.drawText(batcher, topText, 210 - topWidth / 2, 280);
+        Assets.font.drawText(batcher, bottomText, 210 - bottomWidth / 2, 250);
     }
 
     private void presentGameOver() {
