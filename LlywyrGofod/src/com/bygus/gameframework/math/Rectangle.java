@@ -9,4 +9,9 @@ public class Rectangle {
         this.width = width;
         this.height = height;
     }	
+    
+    public String debugText()
+    {
+    	return "Position( lower left ) : (" + lowerLeft.x + "," + lowerLeft.y + "). Size (" + width + ", " + height + ")";
+    }
 }

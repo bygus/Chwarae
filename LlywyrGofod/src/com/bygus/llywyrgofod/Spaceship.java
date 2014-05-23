@@ -4,8 +4,8 @@ import com.bygus.gameframework.DynamicGameObject;
 
 public class Spaceship extends DynamicGameObject
 {	
-    public static final float SHIP_WIDTH = 1.5f;
-    public static final float SHIP_HEIGHT = 1.5f;
+    public static final float SHIP_WIDTH = 2f;
+    public static final float SHIP_HEIGHT = 1f;
     public static final float SHIP_SPEED = 2;
     public static final float SHIP_RELOAD_TIME = 0.5f;
     
@@ -21,6 +21,7 @@ public class Spaceship extends DynamicGameObject
 	public void update(float deltaTime)
 	{
 		position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+        bounds.lowerLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
 	}
 	
 	public void up()

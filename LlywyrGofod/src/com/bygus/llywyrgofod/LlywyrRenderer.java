@@ -49,9 +49,15 @@ public class LlywyrRenderer {
         renderBullets();
         renderSaucers();
         batcher.endBatch();
+        // Different image so different batch
+    	batcher.beginBatch(Assets.explosionTexture);
+    	gl.glPushMatrix();
+        renderExplosions();
+        gl.glPopMatrix();
+    	batcher.endBatch();
         gl.glDisable(GL10.GL_BLEND);
     }
-
+    
     private void renderSpaceship() {
         Spaceship ship = world.spaceship;
         batcher.drawSprite(ship.position.x, ship.position.y, 1.5f, 1.5f, Assets.spaceship);
@@ -70,8 +76,24 @@ public class LlywyrRenderer {
     	TextureRegion keyFrame;
     	for(Saucer s : world.saucers)
     	{
-    		keyFrame = Assets.saucer.getKeyFrame(s.stateTime, Animation.ANIMATION_LOOPING);
-    		batcher.drawSprite(s.position.x, s.position.y, Saucer.SAUCER_WIDTH, Saucer.SAUCER_HEIGHT, keyFrame);
+    		if(s.state == Saucer.SAUCER_ALIVE)
+    		{
+    			keyFrame = Assets.saucer.getKeyFrame(s.stateTime, Animation.ANIMATION_LOOPING);
+    			batcher.drawSprite(s.position.x, s.position.y, Saucer.SAUCER_WIDTH, Saucer.SAUCER_HEIGHT, keyFrame);
+    		}
+    	}
+    }
+
+    private void renderExplosions()
+    {
+    	TextureRegion keyFrame;
+    	for(Saucer s : world.saucers)
+    	{
+    		if(s.state == Saucer.SAUCER_DEAD)
+    		{
+    			keyFrame = Assets.explosionAnim.getKeyFrame(s.stateTime, Animation.ANIMATION_NONLOOPING);
+    			batcher.drawSprite(s.position.x, s.position.y, Saucer.SAUCER_WIDTH, Saucer.SAUCER_HEIGHT, keyFrame);
+    		}
     	}
     }
 }

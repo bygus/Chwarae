@@ -48,6 +48,8 @@ public class GameScreen extends GLScreen {
         upBounds = new Rectangle(10, 42, 32, 32);
         downBounds = new Rectangle(10, 0, 32, 32);
         fireBounds = new Rectangle(480 - 64, 0, 64, 64); // make the bounds a bit big !
+        resumeBounds = new Rectangle(240 - 96, 160, 192, 36);
+        quitBounds = new Rectangle(240 - 96, 160 - 36, 192, 36);
     }
 
     @Override
@@ -109,7 +111,12 @@ public class GameScreen extends GLScreen {
         
         // update the world
         world.update(deltaTime);
-        
+     
+        // check for game over
+        if(world.state==World.WORLD_STATE_GAME_OVER)
+        {
+        	this.state = GAME_OVER;
+        }
     }
 
     private void updatePaused() {
@@ -145,9 +152,6 @@ public class GameScreen extends GLScreen {
             TouchEvent event = touchEvents.get(i);
             if(event.type != TouchEvent.TOUCH_UP)
                 continue;
-        //    world = new World(worldListener);
-        //    renderer = new WorldRenderer(glGraphics, batcher, world);
-        //    world.score = lastScore;
             state = GAME_READY;
         }
     }
@@ -207,7 +211,7 @@ public class GameScreen extends GLScreen {
     }
 
     private void presentPaused() {        
-//        batcher.drawSprite(160, 240, 192, 96, Assets.pauseMenu);
+        batcher.drawSprite(240, 160, 192, 96, Assets.pauseMenu);
 //        Assets.font.drawText(batcher, scoreString, 16, 480-20);
     }
 
@@ -221,9 +225,9 @@ public class GameScreen extends GLScreen {
     }
 
     private void presentGameOver() {
-    /*    batcher.drawSprite(160, 240, 160, 96, Assets.gameOver);        
-        float scoreWidth = Assets.font.glyphWidth * scoreString.length();
-        Assets.font.drawText(batcher, scoreString, 160 - scoreWidth / 2, 480-20);*/
+        batcher.drawSprite(240, 160, 160, 96, Assets.gameOver);        
+    //    float scoreWidth = Assets.font.glyphWidth * scoreString.length();
+    //    Assets.font.drawText(batcher, scoreString, 160 - scoreWidth / 2, 480-20);
     }
 
     @Override

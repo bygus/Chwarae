@@ -91,5 +91,6 @@ public class Vertices {
 	
 	    if(hasColor)
 	        gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+	    
 	}
 }

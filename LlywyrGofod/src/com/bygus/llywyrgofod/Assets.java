@@ -13,21 +13,27 @@ public class Assets {
     public static TextureRegion backgroundRegion;
     public static Texture items;
     public static TextureRegion playButton;
+    public static TextureRegion gameOver;
+    public static TextureRegion pauseMenu;
     public static TextureRegion spaceship;
     public static TextureRegion upButton;
     public static TextureRegion downButton;
     public static TextureRegion fireButton;
     public static TextureRegion bullet;
+    public static Texture explosionTexture;
+    public static Animation explosionAnim;
     
     public static Animation saucer;
     
     public static void load(GLGame game) {
-        background = new Texture(game, "background.png");
+        background = new Texture(game, "backgroundmolly1.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 480, 320);
         
         items = new Texture(game, "items.png");        
-        playButton = new TextureRegion(items, 0, 45, 145, 36);     
-        spaceship = new TextureRegion(items, 0, 0, 48, 48);
+        playButton = new TextureRegion(items, 0, 45, 145, 36);  
+        pauseMenu = new TextureRegion(items, 0, 150, 192, 96);
+        gameOver = new TextureRegion(items, 0, 232, 160, 89);
+        spaceship = new TextureRegion(items, 48, 0, 64, 32);
         upButton = new TextureRegion(items, 0, 80, 32, 32);
         downButton = new TextureRegion(items, 34, 80, 32, 32);
         fireButton = new TextureRegion(items, 68, 80, 32, 32);
@@ -38,11 +44,23 @@ public class Assets {
                 new TextureRegion(items, 64, 124, 64, 32),
                 new TextureRegion(items, 128, 124, 64, 32),
                 new TextureRegion(items, 192, 124, 64, 32));
+        
+        explosionTexture = new Texture(game, "explode.png");
+        
+        TextureRegion[] keyFrames = new TextureRegion[16];
+        int frame = 0;
+        for (int y = 0; y < 256; y += 64) {
+            for (int x = 0; x < 256; x += 64) {
+                keyFrames[frame++] = new TextureRegion(explosionTexture, x, y, 64, 64);
+            }
+        }
+        explosionAnim = new Animation(0.1f, keyFrames);
     }       
 
     public static void reload() {
         background.reload();
         items.reload();
+        explosionTexture.reload();
         //if(Settings.soundEnabled)
         //    music.play();
     }

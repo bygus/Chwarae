@@ -1,11 +1,15 @@
 package com.bygus.llywyrgofod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import android.util.Log;
+
 import com.bygus.gameframework.math.OverlapTester;
 import com.bygus.gameframework.math.Vector2;
+import com.bygus.llywyrgofod.old.Explosion;
 
 public class World {
     public interface WorldListener {
@@ -25,6 +29,7 @@ public class World {
     public final Spaceship spaceship;
     public List<Bullet> bullets;
     public List<Saucer> saucers;
+    public List<Explosion> explosions;
     //public final WorldListener listener;
     public final Random rand;
 
@@ -88,26 +93,34 @@ public class World {
     
     private void checkCollisions()
     {
-    	
     	// Check saucers vs bullets
-    	for(Saucer s : this.saucers)
-    	{
-    		if(OverlapTester.overlapRectangles(s.bounds, this.spaceship.bounds))
-    		{
-    	    	// Check saucers vs Spaceship
-    			this.state = WORLD_STATE_GAME_OVER;
-    			// And explode !!
-    			
-    		}
-    		// Need a SpatialHashGrid !!
-    		for(Bullet b : bullets)
-    		{
-        		if(OverlapTester.overlapRectangles(s.bounds, b.bounds))
-        		{
-        			// And explode !!
-        			
-        		}
-    		}
-    	}    	
+    	Iterator<Saucer> saucerIt = saucers.iterator();
+    	while(saucerIt.hasNext())
+		{
+			Saucer s = saucerIt.next();
+			if(s.state==Saucer.SAUCER_ALIVE)
+			{
+				if(OverlapTester.overlapRectangles(s.bounds, this.spaceship.bounds))
+	    		{
+	    	    	// Check saucers vs Spaceship
+	    			this.state = WORLD_STATE_GAME_OVER;
+	    			// And explode !!
+	    			
+	    		}
+	    		// Need a SpatialHashGrid !!
+				Iterator<Bullet> bulletIt = bullets.iterator();
+	    		while(bulletIt.hasNext())
+	    		{
+	    			Bullet b = bulletIt.next();
+	    			//Log.d(World.class.getSimpleName(), "CheckCollision " + b.bounds.debugText());
+	        		if(OverlapTester.overlapRectangles(s.bounds, b.bounds))
+	        		{
+	        			// remove saucer
+	        			s.kill();
+	        			bulletIt.remove();   			
+	        		}
+	    		}
+			}
+		} 	
     }
 }
